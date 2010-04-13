@@ -3,6 +3,8 @@
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Sample App | <%=h controller.action_name.capitalize %></title>
+		<%= stylesheet_link_tag 'screen', :media => 'screen' %>
+	  <%= stylesheet_link_tag 'print',  :media => 'print' %>	 
   </head>
   <body>
 		<%= yield %>
