@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.contact '/contact', :controller => 'pages', :action => 'contact'
+  map.about '/about', :controller => 'pages', :action => 'about'
+  # map.help '/help', :controller => 'pages', :action => 'help'
+  map.signup '/signup', :controller => 'users', :action => 'new'
+  
+  map.root :controller => 'pages', :action => 'home'
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -38,6 +44,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  # map.connect ':controller/:action/:id'
+  # map.connect ':controller/:action/:id.:format'
 end

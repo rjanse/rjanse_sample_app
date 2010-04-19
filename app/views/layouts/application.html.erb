@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Sample App | <%= @title.nil? ? controller.action_name.capitalize : @title %></title>
+		<%= stylesheet_link_tag 'screen', 'custom', :media => 'screen' %>
+	  <%= stylesheet_link_tag 'print',  :media => 'print' %>	 
+  </head>
+  <body>
+		<div class="container">
+			<div id="header">
+		    <% image = image_tag("rails.png", :alt => "Sample App", :class => "round") %>
+				<%= link_to image, root_path %>
+       	<ul class="navigation round">
+         <li><%= link_to "Home", root_path %></li>
+         <li><%= link_to "Help", "#" %></li>
+         <li><%= link_to "Sign in", '#' %></li>
+        </ul>
+      </div>
+      <div id="content" class="round">
+      <%= yield %>
+      </div>
+			<div id="footer">
+			  <ul class="navigation round">
+			    <li><%= link_to "About", about_path %></li>
+			    <li><%= link_to "Contact", contact_path %></li>
+			    <li><a href="http://news.railstutorial.org/">News</a></li>
+			    <li><a href="http://www.railstutorial.org/">Rails Tutorial</a></li>
+			  </ul>
+			</div>
+			
+    </div>		
+  </body>
+</html>
