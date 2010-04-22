@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Sample App | <%= @title.nil? ? controller.action_name.capitalize : @title %></title>
+    <title>Sample App | <%=h @title.nil? ? controller.action_name.capitalize : @title %></title>
 		<%= stylesheet_link_tag 'screen', 'custom', :media => 'screen' %>
 	  <%= stylesheet_link_tag 'print',  :media => 'print' %>	 
   </head>
