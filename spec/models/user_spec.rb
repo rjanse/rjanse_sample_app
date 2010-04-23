@@ -134,12 +134,12 @@ describe User do
     
     describe "autenticate method" do
       it "should return nil on email/password mismatch" do
-        wrong_password_user = User.autenticate(@attributes[:email], "wrongpass")
+        wrong_password_user = User.authenticate(@attributes[:email], "wrongpass")
         wrong_password_user.should be_nil
       end
       
       it "should return nil for an email address with no user" do
-        nonexistent_user = User.authenticate("bar@foo.com" @attributes[:password])
+        nonexistent_user = User.authenticate("bar@foo.com", @attributes[:password])
         nonexistent_user.should be_nil
       end
       
