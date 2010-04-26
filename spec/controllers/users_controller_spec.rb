@@ -47,17 +47,32 @@ describe UsersController do
   end
 
   describe "GET 'new'" do
-        
-    it "should be successful" do
+    before(:each) do
       get :new
+    end    
+    it "should be successful" do
       response.should be_success
     end
     
     it "should have the right title" do
-      get :new
       response.should have_tag("title", /Sign up/)
     end
     
+    it "should have a name field" do
+      response.should have_tag("input[name=?][type=?]", "user[name]", "text")
+    end
+    
+    it "should have a email field" do
+      response.should have_tag("input[name=?][type=?]", "user[email]", "text")      
+    end
+    
+    it "should have a password field" do
+      response.should have_tag("input[name=?][type=?]", "user[password]", "password")      
+    end
+    
+    it "should have a password_confirmation field" do
+      response.should have_tag("input[name=?][type=?]", "user[password_confirmation]", "password")      
+    end
   end  
   
   describe "GET 'show'" do
