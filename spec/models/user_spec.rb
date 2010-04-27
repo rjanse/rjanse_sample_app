@@ -16,7 +16,7 @@ require 'spec_helper'
 
 describe User do
   before(:each) do
-    @attributes = {
+    @attr = {
       :name => "Example User",
       :email => "user@example.com",
       :password => "foobar",
@@ -28,29 +28,29 @@ describe User do
   # - Have, Accept, Require, Reject, Confirm, Set, Get...
 
   it "should create a new instance given valid attributes" do
-    User.create!(@attributes)
+    User.create!(@attr)
   end
   
   it "should require a name" do
-    no_name_user = User.new(@attributes.merge(:name => ""))
+    no_name_user = User.new(@attr.merge(:name => ""))
     no_name_user.should_not be_valid
   end
   
   it "should require an email" do
-    no_email_user = User.new(@attributes.merge(:email => ""))
+    no_email_user = User.new(@attr.merge(:email => ""))
     no_email_user.should_not be_valid
   end
   
   it "should reject a name longer than 50 characters" do
     long_name = "a" * 51
-    long_name_user = User.new(@attributes.merge(:name => long_name))
+    long_name_user = User.new(@attr.merge(:name => long_name))
     long_name_user.should_not be_valid
   end
   
   it "should accept valid email addresses" do
     addresses = %w(user@foo.com THE_USER@foo.bar.org first.last@foo.nl)
     addresses.each do |address|
-      valid_email_user = User.new(@attributes.merge(:email => address))
+      valid_email_user = User.new(@attr.merge(:email => address))
       valid_email_user.should be_valid
     end
   end
@@ -58,22 +58,22 @@ describe User do
   it "should reject invalid email addresses" do
     addresses = %w(user@foo,com THE_USER.org example.user@foo.)
     addresses.each do |address|
-      invalid_email_user = User.new(@attributes.merge(:email => address))
+      invalid_email_user = User.new(@attr.merge(:email => address))
       invalid_email_user.should_not be_valid
     end
   end
   
   it "should reject duplicate email addresses" do
     # Put a user with given email address into the database
-    User.create!(@attributes)
-    user_with_duplicate_email = User.new(@attributes)
+    User.create!(@attr)
+    user_with_duplicate_email = User.new(@attr)
     user_with_duplicate_email.should_not be_valid
   end
   
   it "should reject duplicate email addresses identically up to case" do
-    upcase_email = @attributes[:email].upcase
-    User.create!(@attributes.merge(:email => upcase_email))
-    user_with_duplicate_email = User.new(@attributes)
+    upcase_email = @attr[:email].upcase
+    User.create!(@attr.merge(:email => upcase_email))
+    user_with_duplicate_email = User.new(@attr)
     user_with_duplicate_email.should_not be_valid
   end
 
@@ -81,26 +81,26 @@ describe User do
   describe "password confirmation" do
     
     it "should require a password" do
-      User.new(@attributes.merge(:password => "", :password_confirmation => "")).should_not be_valid
+      User.new(@attr.merge(:password => "", :password_confirmation => "")).should_not be_valid
     end
     
     it "should require a password_confirmation" do
-      User.new(@attributes.merge(:password => "foobar", :password_confirmation => "")).should_not be_valid
+      User.new(@attr.merge(:password => "foobar", :password_confirmation => "")).should_not be_valid
     end
     
     it "should require a matching password" do
-      User.new(@attributes.merge(:password_confirmation => "invalid")).should_not be_valid 
+      User.new(@attr.merge(:password_confirmation => "invalid")).should_not be_valid 
     end
     
     it "should reject short passwords" do
       short_password = "x" * 5
-      hash = @attributes.merge(:password => short_password, :password_confirmation => short_password)
+      hash = @attr.merge(:password => short_password, :password_confirmation => short_password)
       User.new(hash).should_not be_valid
     end
     
     it "should reject long passwords" do
       long_password = "x" * 41
-      hash = @attributes.merge(:password => long_password, :password_confirmation => long_password)
+      hash = @attr.merge(:password => long_password, :password_confirmation => long_password)
       User.new(hash).should_not be_valid
     end
     
@@ -109,7 +109,7 @@ describe User do
   describe "password encryption" do
         
     before(:each) do
-      @user = User.create!(@attributes)
+      @user = User.create!(@attr)
     end
   
     it "should have an encrypted password attribute" do
@@ -123,7 +123,7 @@ describe User do
     
     describe "has_password? method" do
       it "should be true if the passwords match" do
-        @user.has_password?(@attributes[:password]).should be_true
+        @user.has_password?(@attr[:password]).should be_true
       end    
 
       it "should be false if the passwords don't match" do
@@ -134,25 +134,41 @@ describe User do
     
     describe "autenticate method" do
       it "should return nil on email/password mismatch" do
-        wrong_password_user = User.authenticate(@attributes[:email], "wrongpass")
+        wrong_password_user = User.authenticate(@attr[:email], "wrongpass")
         wrong_password_user.should be_nil
       end
       
       it "should return nil for an email address with no user" do
-        nonexistent_user = User.authenticate("bar@foo.com", @attributes[:password])
+        nonexistent_user = User.authenticate("bar@foo.com", @attr[:password])
         nonexistent_user.should be_nil
       end
       
       it "should return the user on email/password match" do
-        matching_user = User.authenticate(@attributes[:email], @attributes[:password])
+        matching_user = User.authenticate(@attr[:email], @attr[:password])
         matching_user.should == @user
       end
-      
       
     end
     
   end
   
-  
+  describe "remember me" do
+    before(:each) do
+      @user = User.create!(@attr)      
+    end
+    
+    it "should have a remember_me! method" do
+      @user.should respond_to(:remember_me!)
+    end
+    
+    it "should have a remember_token" do
+      @user.should respond_to(:remember_token)
+    end
+    
+    it "should set the remember token" do
+      @user.remember_me!
+      @user.remember_token.should_not be_nil
+    end
+  end
   
 end
