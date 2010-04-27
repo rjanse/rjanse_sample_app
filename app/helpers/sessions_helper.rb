@@ -1,7 +1,8 @@
 module SessionsHelper
   def sign_in(user)
     user.remember_me!
-    cookies[:remember_token] = { :value => user.remember_token, :expires => 20.years.from_now.utc }
+    # cookies[:remember_token] = { :value => user.remember_token, :expires => 20.years.from_now.utc }
+    session[:remember_token] = user.remember_token
     self.current_user = user
   end
   
@@ -14,7 +15,8 @@ module SessionsHelper
   end
   
   def user_from_remember_token
-    remember_token = cookies[:remember_token]
+    # remember_token = cookies[:remember_token]
+    remember_token = session[:remember_token]
     User.find_by_remember_token(remember_token) unless remember_token.nil?
   end
   
@@ -23,7 +25,8 @@ module SessionsHelper
   end
   
   def sign_out
-    cookies.delete(:remember_token)
+    # cookies.delete(:remember_token)
+    reset_session
     self.current_user = nil
   end
 end
