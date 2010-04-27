@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20100421160024
+# Schema version: 20100426210416
 #
 # Table name: users
 #
@@ -10,6 +10,7 @@
 #  updated_at         :datetime
 #  encrypted_password :string(255)
 #  salt               :string(255)
+#  remember_token     :string(255)
 #
 
 require 'spec_helper'
