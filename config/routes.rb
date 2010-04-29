@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signin '/signin', :controller => 'sessions', :action => 'new'
   map.signout '/signout', :controller => 'sessions', :action => 'destroy'
   
+  # map.gravatar '/gravatar'
   
   map.root :controller => 'pages', :action => 'home'
   # The priority is based upon order of creation: first created -> highest priority.

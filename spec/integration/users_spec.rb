@@ -65,5 +65,6 @@ describe "Users" do
       integration_sign_in(user)
       controller.should be_signed_in
     end
-  end
+  end 
+  
 end
